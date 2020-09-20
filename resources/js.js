@@ -10,13 +10,15 @@ $("#csvFile").attr("style","display:none;");
 				
 				
 				}
-				var div="<div id='q"+i+"' "+clas+">	<table><tbody><tr><th> <h1><center>"+questionBank[i]['q']+"</center></h1></th></tr><tr><td><input type='radio' name='a"+i+"' id='a"+i+"' value='1'>"+questionBank[i]['a1']+"<br><input type='radio' name='a"+i+"'  id='a"+i+"' value='2'>"+questionBank[i]['a2']+"<br><input type='radio' name='a"+i+"'  id='a"+i+"' value='3'>"+questionBank[i]['a3']+"<br><input type='radio' name='a"+i+"' id='a"+i+"' value='4'>"+questionBank[i]['a4']+"<br></td></tr><tr id='prevNext'><td><button id='"+i+"' onclick='showHide(this.id)'>Next</button></td></tr></tbody></table></div>";
+				var div="<div id='q"+i+"' "+clas+">	<table><tbody><tr><th> <h1><center>"+questionBank[i]['q']+"</center></h1></th></tr><tr><td><input type='radio' name='a"+i+"' id='a"+i+"' value='1' onclick=showHideNext("+i+")>"+questionBank[i]['a1']+"<br><input type='radio' name='a"+i+"'  id='a"+i+"' value='2' onclick=showHideNext("+i+")>"+questionBank[i]['a2']+"<br><input type='radio' name='a"+i+"'  id='a"+i+"' value='3' onclick=showHideNext("+i+")>"+questionBank[i]['a3']+"<br><input type='radio' name='a"+i+"' id='a"+i+"' value='4' onclick=showHideNext("+i+")>"+questionBank[i]['a4']+"<br></td></tr><tr id='prevNext'><td><button class='hide' id='"+i+"' onclick='showHide(this.id)'>Next</button></td></tr></tbody></table></div>";
 				$("#questionsContainer").append(div);
 				//$("<div "+clas+">"+questionBank[i]['q']+"</div>").appendTo($("#questionsContainer"))
 				}
+
 }
 var userAnswers=[];
 function showHide(id){
+	
 	//console.log($("#a"+id+":checked").val(),"#a"+id)
 	//console.log(Number($("#a"+id+":checked").val())==Number(questionBank[id]['ans']));
 	if(Number($("#a"+id+":checked").val())==Number(questionBank[id]['ans']))userAnswers[id]={qNo:id,answer:1};
@@ -24,13 +26,22 @@ function showHide(id){
 $("#q"+id).attr("class","hide");
 id=Number(id);
 id++;
-​
+if(Number(id)===questionBank.length){
+	
+					var sum=0;
+				for(j=0;j<userAnswers.length;j++){ sum+=userAnswers[j]['answer']; }
+				if(sum>(j/2)) var result="You pass with "+sum+" answer out of "+j;
+				else  var result="You fail with "+sum+" answer out of "+j;
+				var end="<div >"+result+"</div>"
+				$("#questionsContainer").append(end);
+}
 $("#q"+id).attr("class","");
-​
-​
 }	
+function showHideNext(id){
+	$("#"+id).attr("class","");
+}
 $(document).ready(function() { 
-		
+
 	$("#csvFile").change(function() { 
 					var csvReader=new FileReader(); 
 			csvReader.onload=function(){ 
@@ -58,6 +69,6 @@ $(document).ready(function() {
 			} 
 			
 			csvReader.readAsText(this.files[0]); 
-​
+
 	}); 
 }); 
