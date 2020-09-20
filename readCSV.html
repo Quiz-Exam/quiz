@@ -2,8 +2,10 @@
 <html> 
 
 <head> 
-	<title>Read Text File</title> 
+	<title>Exam</title> 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="resources/js.js"></script>
+		<link rel="stylesheet" href="resources/style.css">
 
 </head> 
 
@@ -11,52 +13,9 @@
 	<input type="file" name="csvFile"	id="csvFile" > 
 	<br> 
 <div id="questionsContainer"> </div>
-	<p id="output"></p> 
+ 
 	
 	<script type="text/javascript"> 
-	var questionBank=[];
-	
-function createQuestions(questionBank){
-			for(var i=0;i<questionBank.length;i++)
-			{
-				var div="<div>"+i+"</div>";
-				//$("#questionsContainer").append(div);
-				$("<div>"+questionBank[i]+"</div>").appendTo($("#questionsContainer"))
-				}
-}
-			
-$(document).ready(function() { 
-		
-	$("#csvFile").change(function() { 
-					var csvReader=new FileReader(); 
-			csvReader.onload=function(){ 
-		var arrayOfQuestions=document.getElementById('output').textContent=csvReader.result.split("\n"); 
-		//console.log(csvReader.result.split("\n"));
-			for( var i=1;i< arrayOfQuestions.length;i++){
-				/***** you have to use if line has data (arr.length**/
-				if(arrayOfQuestions[i].split(";").length===6){
-				arrayOfQuestions[i]=arrayOfQuestions[i].split(";");
-				var obj={
-				q:arrayOfQuestions[i][0],
-				a1:arrayOfQuestions[i][1],
-				a2:arrayOfQuestions[i][2],
-				a3:arrayOfQuestions[i][3],
-				a4:arrayOfQuestions[i][4],
-				ans:arrayOfQuestions[i][5]
-				}
-				//console.log(obj);
-				//push question to questionBank arrayOfQuestion
-				questionBank.push(obj);
-				}
-						 
-			}
-				createQuestions(questionBank);		
-			} 
-			
-			csvReader.readAsText(this.files[0]); 
-
-	}); 
-}); 
 	</script> 
 </body> 
 
