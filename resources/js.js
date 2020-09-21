@@ -1,17 +1,24 @@
 
 	var questionBank=[];
-	
+function shuffle(a){
+	for(var i=0;i<a.length;i+=Math.floor(Math.random()*a.length)){
+		a.unshift(a.splice(i,1)[0]);
+	}
+	return a;
+}	
 function createQuestions(questionBank){
 $("#csvFile").attr("style","display:none;");
-			questionBank = questionBank.sort(() => Math.random() - 0.5)
+			//questionBank = questionBank.sort(() => Math.random() - 0.5)
+			questionBank = shuffle(questionBank); // create our own shuffle :)
 			for(var i=0, clas="";i<questionBank.length;i++)
 			{
 							
 				if(i>0){ 
 				clas="class='hide'";
 				}
-				$("#id0").attr("class","hide");
-				var div="<div id='q"+i+"' "+clas+">	<table class='bigFont'><tbody><tr><th> <h1><center>"+questionBank[i]['q']+"</center></h1></th></tr><tr><td><input type='radio' name='a"+i+"' id='a"+i+"' value='1' onclick=showHideNext("+i+")>"+questionBank[i]['a1']+"<br><input type='radio' name='a"+i+"'  id='a"+i+"' value='2' onclick=showHideNext("+i+")>"+questionBank[i]['a2']+"<br><input type='radio' name='a"+i+"'  id='a"+i+"' value='3' onclick=showHideNext("+i+")>"+questionBank[i]['a3']+"<br><input type='radio' name='a"+i+"' id='a"+i+"' value='4' onclick=showHideNext("+i+")>"+questionBank[i]['a4']+"<br></td></tr><tr id='prevNext'><td><button class='hide' id='"+i+"' onclick='showHide(this.id,1)'>Next</button><button class='' id='id"+i+"' onclick='showHide(this.id)'>Previous</button></td></tr></tbody></table></div>";
+				
+				$("#id0").attr("class","hide"); //hide first previous;
+				var div="<div id='q"+i+"' "+clas+">	<table class='bigFont'><tbody><tr><th> <h1><center>"+questionBank[i]['q']+"</center></h1></th></tr><tr><td><input type='radio' name='a"+i+"' id='a"+i+"' value='1' onclick=showHideNext("+i+")>"+questionBank[i]['a1']+"<br><br><input type='radio' name='a"+i+"'  id='a"+i+"' value='2' onclick=showHideNext("+i+")>"+questionBank[i]['a2']+"<br><br><input type='radio' name='a"+i+"'  id='a"+i+"' value='3' onclick=showHideNext("+i+")>"+questionBank[i]['a3']+"<br><br><input type='radio' name='a"+i+"' id='a"+i+"' value='4' onclick=showHideNext("+i+")>"+questionBank[i]['a4']+"<br><br></td></tr><tr id='prevNext'><td><button class='hide' id='id"+i+"' onclick='showHide(this.id)'>Previous</button><button class='hide' id='"+i+"' onclick='showHide(this.id,1)'>Next</button></td></tr></tbody></table></div>";
 				$("#questionsContainer").append(div);
 				//$("<div "+clas+">"+questionBank[i]['q']+"</div>").appendTo($("#questionsContainer"))
 				}
@@ -19,6 +26,8 @@ $("#csvFile").attr("style","display:none;");
 }
 var usermarks=[];
 function showHide(id,a){
+
+	console.log(id)
 	if(a!=1)id=id[2];
 	//console.log(id);
 	//console.log($("#a"+id+":checked").val(),"#a"+id)
@@ -29,8 +38,10 @@ function showHide(id,a){
 $("#q"+id).attr("class","hide");
 id=Number(id);
 if(a===1){
+
 id++;
-if(Number(id)===questionBank.length){
+
+ if(Number(id)===questionBank.length){
 	
 					var sum=0;t="<table class='bigFont' border='1'><tr><th>Question</th><th>Answer Check</th><th>Mark</th></tr>";
 				for(j=0;j<usermarks.length;j++){
@@ -51,6 +62,17 @@ $("#q"+id).attr("class","");
 }	
 function showHideNext(id){
 	$("#"+id).attr("class","");
+	if(Number(id)>0)
+	$("#id"+id).attr("class","");
+	//check submit
+if(Number(id)===questionBank.length-1){
+	$("#"+id).text("submit");
+	$("#"+id).attr("disabled","disabled");
+	
+ 	var assure= confirm("Have you finsh and you want to submit!");
+	console.log(id);
+	if(assure)$("#"+id).prop('disabled', false);
+}
 }
 $(document).ready(function() { 
 /// this link on how you get file content https://www.geeksforgeeks.org/how-to-read-a-local-text-file-using-javascript/ && https://javascript.info/file we apply it in our project
