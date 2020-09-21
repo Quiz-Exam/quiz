@@ -1,8 +1,18 @@
 .hide{
 	display:none;
 }
-table{
+.bigFont{
 	font-size:xx-large;
-	align-items:center;
+	text-align:center;
 	width:100%;
+}
+td {
+	text-align:left;
+	padding-left:20px;
+}
+body{
+	background: url(./images/backGround.png) no-repeat center center fixed;
+font-size: x-large;
+	background-size:cover;
+
 }
